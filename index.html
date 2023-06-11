@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Peta Persebaran Tempat Wisata di Kabupaten Semarang</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Peta -->
+  <link rel="stylesheet" href="css/leaflet.css">
+  <link rel="stylesheet" href="css/L.Control.Locate.min.css">
+  <link rel="stylesheet" href="css/qgis2web.css">
+  <link rel="stylesheet" href="css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="css/leaflet-search.css">
+  <link rel="stylesheet" href="css/filter.css">
+  <link rel="stylesheet" href="css/nouislider.min.css">
+  <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+  <style>
+    #map {
+      width: 1000px;
+      height: 900px;
+    }
+  </style>
+
+  <!--script-->
+  <script src="js/qgis2web_expressions.js"></script>
+  <script src="js/leaflet.js"></script>
+  <script src="js/L.Control.Locate.min.js"></script>
+  <script src="js/leaflet.rotatedMarker.js"></script>
+  <script src="js/leaflet.pattern.js"></script>
+  <script src="js/leaflet-hash.js"></script>
+  <script src="js/Autolinker.min.js"></script>
+  <script src="js/rbush.min.js"></script>
+  <script src="js/labelgun.min.js"></script>
+  <script src="js/labels.js"></script>
+  <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+  <script src="js/leaflet-search.js"></script>
+  <script src="js/tailDT.js"></script>
+  <script src="js/nouislider.min.js"></script>
+  <script src="js/wNumb.js"></script>
+  <script src="data/batas_provinsi_1.js"></script>
+  <!--script peta-->
+  <!-- <script>
+    var highlightLayer;
+    function highlightFeature(e) {
+        highlightLayer = e.target;
+
+        if (e.target.feature.geometry.type === 'LineString') {
+          highlightLayer.setStyle({
+            color: '#ffff00',
+          });
+        } else {
+          highlightLayer.setStyle({
+            fillColor: '#ffff00',
+            fillOpacity: 1
+          });
+        }
+        highlightLayer.openPopup();
+    }
+    var map = L.map('map', {
+        zoomControl:true, maxZoom:28, minZoom:1
+    }).fitBounds([[-18.81319218306648,93.42859751264811],[12.94656438837448,141.73764175890315]]);
+    var hash = new L.Hash(map);
+    map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+    var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+    L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+    var bounds_group = new L.featureGroup([]);
+    function setBounds() {
+    }
+    map.createPane('pane_OpenStreetMap_0');
+    map.getPane('pane_OpenStreetMap_0').style.zIndex = 400;
+    var layer_OpenStreetMap_0 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        pane: 'pane_OpenStreetMap_0',
+        opacity: 1.0,
+        attribution: '',
+        minZoom: 1,
+        maxZoom: 28,
+        minNativeZoom: 0,
+        maxNativeZoom: 19
+    });
+    layer_OpenStreetMap_0;
+    map.addLayer(layer_OpenStreetMap_0);
+    function pop_batas_provinsi_1(feature, layer) {
+        layer.on({
+            mouseout: function(e) {
+                for (i in e.target._eventParents) {
+                    e.target._eventParents[i].resetStyle(e.target);
+                }
+                if (typeof layer.closePopup == 'function') {
+                    layer.closePopup();
+                } else {
+                    layer.eachLayer(function(feature){
+                        feature.closePopup()
+                    });
+                }
+            },
+            mouseover: highlightFeature,
+        });
+        var popupContent = '<table>\
+                <tr>\
+                    <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                </tr>\
+                <tr>\
+                    <td colspan="2">' + (feature.properties['PROVINSI'] !== null ? autolinker.link(feature.properties['PROVINSI'].toLocaleString()) : '') + '</td>\
+                </tr>\
+                <tr>\
+                    <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                </tr>\
+                <tr>\
+                    <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                </tr>\
+                <tr>\
+                    <td colspan="2">' + (feature.properties['sd'] !== null ? autolinker.link(feature.properties['sd'].toLocaleString()) : '') + '</td>\
+                </tr>\
+                <tr>\
+                    <td colspan="2">' + (feature.properties['smp'] !== null ? autolinker.link(feature.properties['smp'].toLocaleString()) : '') + '</td>\
+                </tr>\
+                <tr>\
+                    <td colspan="2">' + (feature.properties['sma'] !== null ? autolinker.link(feature.properties['sma'].toLocaleString()) : '') + '</td>\
+                </tr>\
+                <tr>\
+                    <td colspan="2">' + (feature.properties['smk'] !== null ? autolinker.link(feature.properties['smk'].toLocaleString()) : '') + '</td>\
+                </tr>\
+                <tr>\
+                    <td colspan="2">' + (feature.properties['Jumlah'] !== null ? autolinker.link(feature.properties['Jumlah'].toLocaleString()) : '') + '</td>\
+                </tr>\
+            </table>';
+        layer.bindPopup(popupContent, {maxHeight: 400});
+    }
+
+    function style_batas_provinsi_1_0(feature) {
+        if (feature.properties['Jumlah'] >= 285.000000 && feature.properties['Jumlah'] <= 666.200000 ) {
+            return {
+            pane: 'pane_batas_provinsi_1',
+            opacity: 1,
+            color: 'rgba(35,35,35,1.0)',
+            dashArray: '',
+            lineCap: 'butt',
+            lineJoin: 'miter',
+            weight: 1.0, 
+            fill: true,
+            fillOpacity: 1,
+            fillColor: 'rgba(215,86,28,1.0)',
+            interactive: true,
+        }
+        }
+        if (feature.properties['Jumlah'] >= 666.200000 && feature.properties['Jumlah'] <= 1015.600000 ) {
+            return {
+            pane: 'pane_batas_provinsi_1',
+            opacity: 1,
+            color: 'rgba(35,35,35,1.0)',
+            dashArray: '',
+            lineCap: 'butt',
+            lineJoin: 'miter',
+            weight: 1.0, 
+            fill: true,
+            fillOpacity: 1,
+            fillColor: 'rgba(253,174,97,1.0)',
+            interactive: true,
+        }
+        }
+        if (feature.properties['Jumlah'] >= 1015.600000 && feature.properties['Jumlah'] <= 1803.200000 ) {
+            return {
+            pane: 'pane_batas_provinsi_1',
+            opacity: 1,
+            color: 'rgba(35,35,35,1.0)',
+            dashArray: '',
+            lineCap: 'butt',
+            lineJoin: 'miter',
+            weight: 1.0, 
+            fill: true,
+            fillOpacity: 1,
+            fillColor: 'rgba(255,255,191,1.0)',
+            interactive: true,
+        }
+        }
+        if (feature.properties['Jumlah'] >= 1803.200000 && feature.properties['Jumlah'] <= 2679.200000 ) {
+            return {
+            pane: 'pane_batas_provinsi_1',
+            opacity: 1,
+            color: 'rgba(35,35,35,1.0)',
+            dashArray: '',
+            lineCap: 'butt',
+            lineJoin: 'miter',
+            weight: 1.0, 
+            fill: true,
+            fillOpacity: 1,
+            fillColor: 'rgba(171,221,164,1.0)',
+            interactive: true,
+        }
+        }
+        if (feature.properties['Jumlah'] >= 2679.200000 && feature.properties['Jumlah'] <= 10884.000000 ) {
+            return {
+            pane: 'pane_batas_provinsi_1',
+            opacity: 1,
+            color: 'rgba(35,35,35,1.0)',
+            dashArray: '',
+            lineCap: 'butt',
+            lineJoin: 'miter',
+            weight: 1.0, 
+            fill: true,
+            fillOpacity: 1,
+            fillColor: 'rgba(43,131,186,1.0)',
+            interactive: true,
+        }
+        }
+    }
+    map.createPane('pane_batas_provinsi_1');
+    map.getPane('pane_batas_provinsi_1').style.zIndex = 401;
+    map.getPane('pane_batas_provinsi_1').style['mix-blend-mode'] = 'normal';
+    var layer_batas_provinsi_1 = new L.geoJson(json_batas_provinsi_1, {
+        attribution: '',
+        interactive: true,
+        dataVar: 'json_batas_provinsi_1',
+        layerName: 'layer_batas_provinsi_1',
+        pane: 'pane_batas_provinsi_1',
+        onEachFeature: pop_batas_provinsi_1,
+        style: style_batas_provinsi_1_0,
+    });
+    bounds_group.addLayer(layer_batas_provinsi_1);
+    map.addLayer(layer_batas_provinsi_1);
+    var osmGeocoder = new L.Control.Geocoder({
+        collapsed: true,
+        position: 'topleft',
+        text: 'Search',
+        title: 'Testing'
+    }).addTo(map);
+    document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+    .className += ' fa fa-search';
+    document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+    .title += 'Search for a place';
+    var baseMaps = {};
+    L.control.layers(baseMaps,{'batas_provinsi<br /><table><tr><td style="text-align: center;"><img src="legend/batas_provinsi_1_2856660.png" /></td><td>285 - 666</td></tr><tr><td style="text-align: center;"><img src="legend/batas_provinsi_1_66610161.png" /></td><td>666 - 1016</td></tr><tr><td style="text-align: center;"><img src="legend/batas_provinsi_1_101618032.png" /></td><td>1016 - 1803</td></tr><tr><td style="text-align: center;"><img src="legend/batas_provinsi_1_180326793.png" /></td><td>1803 - 2679</td></tr><tr><td style="text-align: center;"><img src="legend/batas_provinsi_1_2679108844.png" /></td><td>2679 - 10884</td></tr></table>': layer_batas_provinsi_1,"OpenStreetMap": layer_OpenStreetMap_0,},{collapsed:false}).addTo(map);
+    setBounds();
+    map.addControl(new L.Control.Search({
+        layer: layer_batas_provinsi_1,
+        initial: false,
+        hideMarkerOnCollapse: true,
+        propertyName: 'PROVINSI'}));
+    document.getElementsByClassName('search-button')[0].className +=
+     ' fa fa-binoculars';
+    var mapDiv = document.getElementById('map');
+    var row = document.createElement('div');
+    row.className="row";
+    row.id="all";
+    row.style.height = "100%";
+    var col1 = document.createElement('div');
+    col1.className="col9";
+    col1.id = "mapWindow";
+    col1.style.height = "99%";
+    col1.style.width = "80%";
+    col1.style.display = "inline-block";
+    var col2 = document.createElement('div');
+    col2.className="col3";
+    col2.id = "menu";
+    col2.style.display = "inline-block";
+    mapDiv.parentNode.insertBefore(row, mapDiv);
+    document.getElementById("all").appendChild(col1);
+    document.getElementById("all").appendChild(col2);
+    col1.appendChild(mapDiv)
+    var Filters = {"OBJECTID": "int"};
+    function filterFunc() {
+      map.eachLayer(function(lyr){
+      if ("options" in lyr && "dataVar" in lyr["options"]){
+        features = this[lyr["options"]["dataVar"]].features.slice(0);
+        try{
+          for (key in Filters){
+            keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+            if (Filters[key] == "str" || Filters[key] == "bool"){
+              var selection = [];
+              var options = document.getElementById("sel_" + keyS).options
+              for (var i=0; i < options.length; i++) {
+                if (options[i].selected) selection.push(options[i].value);
+              }
+                try{
+                  if (key in features[0].properties){
+                    for (i = features.length - 1;
+                      i >= 0; --i){
+                      if (selection.indexOf(
+                      features[i].properties[key])<0
+                      && selection.length>0) {
+                      features.splice(i,1);
+                      }
+                    }
+                  }
+                } catch(err){
+              }
+            }
+            if (Filters[key] == "int"){
+              sliderVals =  document.getElementById(
+                "div_" + keyS).noUiSlider.get();
+              try{
+                if (key in features[0].properties){
+                for (i = features.length - 1; i >= 0; --i){
+                  if (parseInt(features[i].properties[key])
+                      < sliderVals[0]
+                      || parseInt(features[i].properties[key])
+                      > sliderVals[1]){
+                        features.splice(i,1);
+                      }
+                    }
+                  }
+                } catch(err){
+                }
+              }
+            if (Filters[key] == "real"){
+              sliderVals =  document.getElementById(
+                "div_" + keyS).noUiSlider.get();
+              try{
+                if (key in features[0].properties){
+                for (i = features.length - 1; i >= 0; --i){
+                  if (features[i].properties[key]
+                      < sliderVals[0]
+                      || features[i].properties[key]
+                      > sliderVals[1]){
+                        features.splice(i,1);
+                      }
+                    }
+                  }
+                } catch(err){
+                }
+              }
+            if (Filters[key] == "date"
+              || Filters[key] == "datetime"
+              || Filters[key] == "time"){
+              try{
+                if (key in features[0].properties){
+                  HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                  startdate = document.getElementById("dat_" +
+                    HTMLkey + "_date1").value.replace(" ", "T");
+                  enddate = document.getElementById("dat_" +
+                    HTMLkey + "_date2").value.replace(" ", "T");
+                  for (i = features.length - 1; i >= 0; --i){
+                    if (features[i].properties[key] < startdate
+                      || features[i].properties[key] > enddate){
+                      features.splice(i,1);
+                    }
+                  }
+                }
+              } catch(err){
+              }
+            }
+          }
+        } catch(err){
+        }
+      this[lyr["options"]["layerName"]].clearLayers();
+      this[lyr["options"]["layerName"]].addData(features);
+      }
+      })
+    }
+        document.getElementById("menu").appendChild(
+            document.createElement("div"));
+        var div_OBJECTID = document.createElement("div");
+        div_OBJECTID.id = "div_OBJECTID";
+        div_OBJECTID.className = "slider";
+        document.getElementById("menu").appendChild(div_OBJECTID);
+        var lab_OBJECTID = document.createElement('div');
+        lab_OBJECTID.innerHTML  = 'OBJECTID: <span id="val_OBJECTID"></span>';
+        lab_OBJECTID.className = 'filterlabel';
+        document.getElementById("menu").appendChild(lab_OBJECTID);
+        var reset_OBJECTID = document.createElement('div');
+        reset_OBJECTID.innerHTML = 'clear filter';
+        reset_OBJECTID.className = 'filterlabel';
+        lab_OBJECTID.className = 'filterlabel';
+        reset_OBJECTID.onclick = function() {
+            sel_OBJECTID.noUiSlider.reset();
+        };
+        document.getElementById("menu").appendChild(reset_OBJECTID);
+        var sel_OBJECTID = document.getElementById('div_OBJECTID');
+        noUiSlider.create(sel_OBJECTID, {
+            connect: true,
+            start: [1, 34],
+            step: 1,
+            format: wNumb({
+                decimals: 0,
+                }),
+            range: {
+            min: 1,
+            max: 34
+            }
+        });
+        sel_OBJECTID.noUiSlider.on('update', function (values) {
+        filterVals =[];
+        for (value in values){
+        filterVals.push(parseInt(value))
+        }
+        val_OBJECTID = document.getElementById('val_OBJECTID');
+        val_OBJECTID.innerHTML = values.join(' - ');
+            filterFunc()
+        });
+    </script> -->
+  <!-- Template Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Impact
+  * Updated: Mar 10 2023 with Bootstrap v5.2.3
+  * Template URL: https://bootstrapmade.com/impact-bootstrap-business-website-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <section id="topbar" class="topbar d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope d-flex align-items-center"><a
+            href="mailto:contact@example.com">contact@example.com</a></i>
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
+      </div>
+      <div class="social-links d-none d-md-flex align-items-center">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </section><!-- End Top Bar -->
+
+  <header id="header" class="header d-flex align-items-center">
+
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="assets/img/logo-ugm-png.png" alt="">
+        <h1>&nbsp Angela Cindy Larasati<span></span></h1>
+        <h1>&nbsp 21/480796/SV/19688<span></span></h1>
+      </a>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">Peta</a></li>
+          <li><a href="#services">Keterangan</a></li>
+          <li><a href="#portfolio">Diagram</a></li>
+          <!-- <li><a href="#team">Team</a></li>
+          <li><a href="blog.html">Blog</a></li> -->
+          <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                <ul>
+                  <li><a href="#">Deep Drop Down 1</a></li>
+                  <li><a href="#">Deep Drop Down 2</a></li>
+                  <li><a href="#">Deep Drop Down 3</a></li>
+                  <li><a href="#">Deep Drop Down 4</a></li>
+                  <li><a href="#">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down 2</a></li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+            </ul>
+          </li>
+          <li><a href="#contact">Contact</a></li>
+        </ul> -->
+      </nav><!-- .navbar -->
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+  </header><!-- End Header -->
+  <!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero">
+    <div class="container position-relative">
+      <div class="row gy-5" data-aos="fade-in">
+        <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
+          <h2>Welcome to <span>My Web</span></h2>
+          <p>Web ini berisi peta persebaran tempat wisata di Kabupaten Semarang, Jawa Tengah.</p>
+          <div class="d-flex justify-content-center justify-content-lg-start">
+            <a href="#about" class="btn-get-started">Get Started</a>
+            <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+              class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch
+                Video</span></a>
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2">
+          <img src="assets/img/hero-img.svg" class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="100">
+        </div>
+      </div>
+    </div>
+
+    <div class="icon-boxes position-relative">
+      <div class="container position-relative">
+        <div class="row gy-4 mt-5">
+
+          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-easel"></i></div>
+              <h4 class="title"><a href="" class="stretched-link">Shp Kab.Semarang</a></h4>
+            </div>
+          </div><!--End Icon Box -->
+
+          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-gem"></i></div>
+              <h4 class="title"><a href="" class="stretched-link">Data Jumlah Pengunjung 2020</a></h4>
+            </div>
+          </div><!--End Icon Box -->
+
+          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-geo-alt"></i></div>
+              <h4 class="title"><a href="" class="stretched-link">Data Koordinat Tempat Wisata</a></h4>
+            </div>
+          </div><!--End Icon Box -->
+
+          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-command"></i></div>
+              <h4 class="title"><a href="" class="stretched-link">Openstreetmap</a></h4>
+            </div>
+          </div><!--End Icon Box -->
+
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </section>
+  <!-- End Hero Section -->
+
+  <main id="main">
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Peta Jenis Wisata di Kabupaten semarang</h2>
+          <p>Berikut merupakan tampilan peta jenis wisata di Kabupaten Semarang berdasarkan wisata alam, wisata buatan, dan wisata budaya.</p>
+        </div>
+        
+          <iframe
+          src="https://angelacindy.github.io/PetaJenisWisata/"
+          width="100%" height="650" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="section-header">
+            <br>
+            <h2>Peta Analisis Wisata di Kabupaten Semarang</h2>
+            <p>Berikut merupakan tampilan peta analisis wisata di Kabupaten Semarang dengan jenis analisis spasial buffer dan selection.</p>
+          </div>
+          <iframe
+          src="https://angelacindy.github.io/PetaAnalisis/"
+          width="100%" height="650" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="section-header">
+            <br>
+            <h2>Peta Klasifikasi Jumlah Pengunjung Wisata di Kabupaten Semarang</h2>
+            <p>Berikut merupakan tampilan peta jumlah pengunjung wisata di Kabupaten Semarang tahun 2020.</p>
+          </div>
+          <iframe
+          src="https://angelacindy.github.io/MiniProject/"
+          width="100%" height="650" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe></iframe>
+        </div>
+
+        <!-- <div class="row gy-4">
+          <div class="col-lg-6">
+            <h3>Voluptatem dignissimos provident quasi corporis</h3>
+            <img src="assets/img/about.jpg" class="img-fluid rounded-4 mb-4" alt="">
+            <p>Ut fugiat ut sunt quia veniam. Voluptate perferendis perspiciatis quod nisi et. Placeat debitis quia recusandae odit et consequatur voluptatem. Dignissimos pariatur consectetur fugiat voluptas ea.</p>
+            <p>Temporibus nihil enim deserunt sed ea. Provident sit expedita aut cupiditate nihil vitae quo officia vel. Blanditiis eligendi possimus et in cum. Quidem eos ut sint rem veniam qui. Ut ut repellendus nobis tempore doloribus debitis explicabo similique sit. Accusantium sed ut omnis beatae neque deleniti repellendus.</p>
+          </div>
+          <div class="col-lg-6">
+            <div class="content ps-0 ps-lg-5">
+              <p class="fst-italic">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua.
+              </p>
+              <ul>
+                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+              </ul>
+              <p>
+                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
+              </p>
+
+              <div class="position-relative mt-4">
+                <img src="assets/img/about-2.jpg" class="img-fluid rounded-4" alt="">
+                <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox play-btn"></a>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+      </div>
+    </section><!-- End About Us Section -->
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients">
+      <div class="container" data-aos="zoom-out">
+
+        <div class="clients-slider swiper">
+          <div class="swiper-wrapper align-items-center">
+            <!-- <div class="swiper-slide"><img src="assets/img/clients/client-1.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-2.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-3.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-4.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-5.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-6.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-7.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-8.png" class="img-fluid" alt=""></div> -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- End Clients Section -->
+
+    <!-- ======= Stats Counter Section ======= -->
+    <!-- <section id="stats-counter" class="stats-counter">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row gy-4 align-items-center">
+
+          <div class="col-lg-6">
+            <img src="assets/img/stats-img.svg" alt="" class="img-fluid">
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="stats-item d-flex align-items-center">
+              <span data-purecounter-start="0" data-purecounter-end="1309.294" data-purecounter-duration="1"
+                class="purecounter"></span>
+              <p><strong>&nbsp SD</strong>&nbsp Berikut merupakan rata-rata anak putus sekolah jenjang Sekolah Dasar di
+                Indonesia</p>
+            </div>
+
+            <div class="stats-item d-flex align-items-center">
+              <span data-purecounter-start="0" data-purecounter-end="334.6471" data-purecounter-duration="1"
+                class="purecounter"></span>
+              <p><strong>SMP</strong>&nbsp Berikut merupakan rata-rata anak putus sekolah jenjang Sekolah Menengah
+                Pertama di Indonesia</p>
+            </div>
+
+            <div class="stats-item d-flex align-items-center">
+              <span data-purecounter-start="0" data-purecounter-end="408.2059" data-purecounter-duration="1"
+                class="purecounter"></span>
+              <p><strong>SMA</strong>&nbsp Berikut merupakan rata-rata anak putus sekolah jenjang Sekolah Menengah Atas
+                di Indonesia</p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section> -->
+
+    <!-- ======= Call To Action Section ======= -->
+    <!-- <section id="call-to-action" class="call-to-action">
+      <div class="container text-center" data-aos="zoom-out">
+        <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox play-btn"></a>
+        <h3>Layout Peta Jumlah Anak Putus Sekolah</h3>
+        <p>
+        </p>
+        <a class="cta-btn" href="Peta-3.html">Go to Map</a>
+      </div>
+    </section> -->
+
+    <!-- ======= Our Services Section ======= -->
+    <section id="services" class="services sections-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Keterangan</h2>
+          <p>Peta tersebut menampilkan persebaran tempat wisata di Kabupaten Semarang yang dibagi menjadi tiga peta, yaitu Peta Jenis Wisata di Kabupaten semarang, Peta Analisis Wisata di Kabupaten Semarang, dan Peta Klasifikasi Jumlah Pengunjung Wisata di Kabupaten Semarang.
+            Kabupaten Semarang merupakan daerah yang memiliki banyak tempat wisata, mulai dari wisata alam, wisata buatan, bahkan wisata budaya. Dari ketiga jenis tempat wisata tersebut, wisata budaya merupakan tempat wisata yang paling diminati. Wisata budaya yang ada di 
+            Kabupaten Semarang contohnya Candi Gedong Songo, Museum Kereta api, Palagan Ambarawa, Candi Ngempon, dan masih banyak lagi. Selain itu, wisata lainnya juga tidak kalah menarik seperti Dusun Semilir yang sempat viral pada tahun 2021. Tujuan dibuatnya peta ini yaitu 
+            untuk mempermudah masyarakat dalam mengetahui letak tempat wisata.</p>
+        </div>
+
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+          
+          <!-- <div class="col-lg-4 col-md-6">
+            <div class="service-item  position-relative">
+              <div class="icon">
+                <i class="bi bi-activity"></i>
+              </div>
+              <h3>Nesciunt Mete</h3>
+              <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis
+                tempore et consequatur.</p>
+              <a href="#" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div> -->
+          <!-- End Service Item -->
+
+          <!-- <div class="col-lg-4 col-md-6">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-broadcast"></i>
+              </div>
+              <h3>Eosle Commodi</h3>
+              <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut
+                nesciunt dolorem.</p>
+              <a href="#" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div> -->
+          <!-- End Service Item -->
+
+          <!-- <div class="col-lg-4 col-md-6">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-easel"></i>
+              </div>
+              <h3>Ledo Markt</h3>
+              <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci
+                eos earum corrupti.</p>
+              <a href="#" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div> -->
+          <!-- End Service Item -->
+
+          <!-- <div class="col-lg-4 col-md-6">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-bounding-box-circles"></i>
+              </div>
+              <h3>Asperiores Commodit</h3>
+              <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident
+                adipisci neque.</p>
+              <a href="#" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div> -->
+          <!-- End Service Item -->
+
+          <!-- <div class="col-lg-4 col-md-6">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-calendar4-week"></i>
+              </div>
+              <h3>Velit Doloremque</h3>
+              <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem
+                alias eius labore.</p>
+              <a href="#" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div> -->
+          <!-- End Service Item -->
+
+          <!-- <div class="col-lg-4 col-md-6">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-chat-square-text"></i>
+              </div>
+              <h3>Dolori Architecto</h3>
+              <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti
+                recusandae ducimus enim.</p>
+              <a href="#" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div> -->
+          <!-- End Service Item -->
+
+        </div>
+
+      </div>
+    </section><!-- End Our Services Section -->
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Presentase Jumlah Pengunjung Tempat Wisata</h2>
+          <p></p>
+        </div>
+        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+        <script>
+          var xValues = ["Wisata Alam", "Wisata Buatan", "Wisata Budaya"];
+          var yValues = [18856, 25792, 127762];
+          var barColors = ["red", "green", "blue"];
+
+          new Chart("myChart", {
+            type: "bar",
+            data: {
+              labels: xValues,
+              datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+              }]
+            },
+            options: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: "Presentase Jumlah Pengunjung Tempat Wisata Tahun 2020"
+              }
+            }
+          });
+        </script>
+
+
+        <!-- <div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="testimonial-wrap">
+                <div class="testimonial-item">
+                  <div class="d-flex align-items-center">
+                    <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img flex-shrink-0" alt="">
+                    <div>
+                      <h3>Saul Goodman</h3>
+                      <h4>Ceo &amp; Founder</h4>
+                      <div class="stars">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                          class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p>
+                    <i class="bi bi-quote quote-icon-left"></i>
+                    Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus.
+                    Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                    <i class="bi bi-quote quote-icon-right"></i>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="swiper-slide">
+              <div class="testimonial-wrap">
+                <div class="testimonial-item">
+                  <div class="d-flex align-items-center">
+                    <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img flex-shrink-0" alt="">
+                    <div>
+                      <h3>Sara Wilsson</h3>
+                      <h4>Designer</h4>
+                      <div class="stars">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                          class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p>
+                    <i class="bi bi-quote quote-icon-left"></i>
+                    Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis
+                    quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
+                    <i class="bi bi-quote quote-icon-right"></i>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="testimonial-wrap">
+                <div class="testimonial-item">
+                  <div class="d-flex align-items-center">
+                    <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img flex-shrink-0" alt="">
+                    <div>
+                      <h3>Jena Karlis</h3>
+                      <h4>Store Owner</h4>
+                      <div class="stars">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                          class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p>
+                    <i class="bi bi-quote quote-icon-left"></i>
+                    Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim
+                    tempor labore quem eram duis noster aute amet eram fore quis sint minim.
+                    <i class="bi bi-quote quote-icon-right"></i>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="testimonial-wrap">
+                <div class="testimonial-item">
+                  <div class="d-flex align-items-center">
+                    <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img flex-shrink-0" alt="">
+                    <div>
+                      <h3>Matt Brandon</h3>
+                      <h4>Freelancer</h4>
+                      <div class="stars">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                          class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p>
+                    <i class="bi bi-quote quote-icon-left"></i>
+                    Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit
+                    minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore.
+                    <i class="bi bi-quote quote-icon-right"></i>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="testimonial-wrap">
+                <div class="testimonial-item">
+                  <div class="d-flex align-items-center">
+                    <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img flex-shrink-0" alt="">
+                    <div>
+                      <h3>John Larson</h3>
+                      <h4>Entrepreneur</h4>
+                      <div class="stars">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                          class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p>
+                    <i class="bi bi-quote quote-icon-left"></i>
+                    Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim
+                    culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore.
+                    <i class="bi bi-quote quote-icon-right"></i>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="swiper-pagination"></div>
+        </div> -->
+
+      </div>
+    </section><!-- End Testimonials Section -->
+
+
+    <!-- ======= Our Team Section ======= -->
+    <!-- <section id="team" class="team">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Our Team</h2>
+          <p>Nulla dolorum nulla nesciunt rerum facere sed ut inventore quam porro nihil id ratione ea sunt quis dolorem
+            dolore earum</p>
+        </div>
+
+        <div class="row gy-4">
+
+          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+            <div class="member">
+              <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
+              <h4>Walter White</h4>
+              <span>Web Development</span>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
+            <div class="member">
+              <img src="assets/img/team/team-2.jpg" class="img-fluid" alt="">
+              <h4>Sarah Jhinson</h4>
+              <span>Marketing</span>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
+            <div class="member">
+              <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
+              <h4>William Anderson</h4>
+              <span>Content</span>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
+            <div class="member">
+              <img src="assets/img/team/team-4.jpg" class="img-fluid" alt="">
+              <h4>Amanda Jepson</h4>
+              <span>Accountant</span>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section> -->
+
+    <!-- ======= Pricing Section ======= -->
+    <!-- <section id="pricing" class="pricing sections-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Pricing</h2>
+          <p>Aperiam dolorum et et wuia molestias qui eveniet numquam nihil porro incidunt dolores placeat sunt id nobis
+            omnis tiledo stran delop</p>
+        </div>
+
+        <div class="row g-4 py-lg-5" data-aos="zoom-out" data-aos-delay="100">
+
+          <div class="col-lg-4">
+            <div class="pricing-item">
+              <h3>Free Plan</h3>
+              <div class="icon">
+                <i class="bi bi-box"></i>
+              </div>
+              <h4><sup>$</sup>0<span> / month</span></h4>
+              <ul>
+                <li><i class="bi bi-check"></i> Quam adipiscing vitae proin</li>
+                <li><i class="bi bi-check"></i> Nec feugiat nisl pretium</li>
+                <li><i class="bi bi-check"></i> Nulla at volutpat diam uteera</li>
+                <li class="na"><i class="bi bi-x"></i> <span>Pharetra massa massa ultricies</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
+              </ul>
+              <div class="text-center"><a href="#" class="buy-btn">Buy Now</a></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="pricing-item featured">
+              <h3>Business Plan</h3>
+              <div class="icon">
+                <i class="bi bi-airplane"></i>
+              </div>
+
+              <h4><sup>$</sup>29<span> / month</span></h4>
+              <ul>
+                <li><i class="bi bi-check"></i> Quam adipiscing vitae proin</li>
+                <li><i class="bi bi-check"></i> Nec feugiat nisl pretium</li>
+                <li><i class="bi bi-check"></i> Nulla at volutpat diam uteera</li>
+                <li><i class="bi bi-check"></i> Pharetra massa massa ultricies</li>
+                <li><i class="bi bi-check"></i> Massa ultricies mi quis hendrerit</li>
+              </ul>
+              <div class="text-center"><a href="#" class="buy-btn">Buy Now</a></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="pricing-item">
+              <h3>Developer Plan</h3>
+              <div class="icon">
+                <i class="bi bi-send"></i>
+              </div>
+              <h4><sup>$</sup>49<span> / month</span></h4>
+              <ul>
+                <li><i class="bi bi-check"></i> Quam adipiscing vitae proin</li>
+                <li><i class="bi bi-check"></i> Nec feugiat nisl pretium</li>
+                <li><i class="bi bi-check"></i> Nulla at volutpat diam uteera</li>
+                <li><i class="bi bi-check"></i> Pharetra massa massa ultricies</li>
+                <li><i class="bi bi-check"></i> Massa ultricies mi quis hendrerit</li>
+              </ul>
+              <div class="text-center"><a href="#" class="buy-btn">Buy Now</a></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section> -->
+
+    <!-- ======= Frequently Asked Questions Section ======= -->
+    <!-- <section id="faq" class="faq">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4">
+            <div class="content px-xl-5">
+              <h3>Frequently Asked <strong>Questions</strong></h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Duis aute irure dolor in reprehenderit
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-8">
+
+            <div class="accordion accordion-flush" id="faqlist" data-aos="fade-up" data-aos-delay="100">
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#faq-content-1">
+                    <span class="num">1.</span>
+                    Non consectetur a erat nam at lectus urna duis?
+                  </button>
+                </h3>
+                <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                  <div class="accordion-body">
+                    Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur
+                    gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#faq-content-2">
+                    <span class="num">2.</span>
+                    Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?
+                  </button>
+                </h3>
+                <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                  <div class="accordion-body">
+                    Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id
+                    donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque
+                    elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#faq-content-3">
+                    <span class="num">3.</span>
+                    Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi?
+                  </button>
+                </h3>
+                <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                  <div class="accordion-body">
+                    Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar
+                    elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque
+                    eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis
+                    sed odio morbi quis
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#faq-content-4">
+                    <span class="num">4.</span>
+                    Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?
+                  </button>
+                </h3>
+                <div id="faq-content-4" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                  <div class="accordion-body">
+                    Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id
+                    donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque
+                    elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#faq-content-5">
+                    <span class="num">5.</span>
+                    Tempus quam pellentesque nec nam aliquam sem et tortor consequat?
+                  </button>
+                </h3>
+                <div id="faq-content-5" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                  <div class="accordion-body">
+                    Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in.
+                    Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est.
+                    Purus gravida quis blandit turpis cursus in
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section> -->
+
+    <!-- ======= Recent Blog Posts Section ======= -->
+    <!-- <section id="recent-posts" class="recent-posts sections-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Recent Blog Posts</h2>
+          <p>Consequatur libero assumenda est voluptatem est quidem illum et officia imilique qui vel architecto
+            accusamus fugit aut qui distinctio</p>
+        </div>
+
+        <div class="row gy-4">
+
+          <div class="col-xl-4 col-md-6">
+            <article>
+
+              <div class="post-img">
+                <img src="assets/img/blog/blog-1.jpg" alt="" class="img-fluid">
+              </div>
+
+              <p class="post-category">Politics</p>
+
+              <h2 class="title">
+                <a href="blog-details.html">Dolorum optio tempore voluptas dignissimos</a>
+              </h2>
+
+              <div class="d-flex align-items-center">
+                <img src="assets/img/blog/blog-author.jpg" alt="" class="img-fluid post-author-img flex-shrink-0">
+                <div class="post-meta">
+                  <p class="post-author">Maria Doe</p>
+                  <p class="post-date">
+                    <time datetime="2022-01-01">Jan 1, 2022</time>
+                  </p>
+                </div>
+              </div>
+
+            </article>
+          </div>
+
+          <div class="col-xl-4 col-md-6">
+            <article>
+
+              <div class="post-img">
+                <img src="assets/img/blog/blog-2.jpg" alt="" class="img-fluid">
+              </div>
+
+              <p class="post-category">Sports</p>
+
+              <h2 class="title">
+                <a href="blog-details.html">Nisi magni odit consequatur autem nulla dolorem</a>
+              </h2>
+
+              <div class="d-flex align-items-center">
+                <img src="assets/img/blog/blog-author-2.jpg" alt="" class="img-fluid post-author-img flex-shrink-0">
+                <div class="post-meta">
+                  <p class="post-author">Allisa Mayer</p>
+                  <p class="post-date">
+                    <time datetime="2022-01-01">Jun 5, 2022</time>
+                  </p>
+                </div>
+              </div>
+
+            </article>
+          </div>
+
+          <div class="col-xl-4 col-md-6">
+            <article>
+
+              <div class="post-img">
+                <img src="assets/img/blog/blog-3.jpg" alt="" class="img-fluid">
+              </div>
+
+              <p class="post-category">Entertainment</p>
+
+              <h2 class="title">
+                <a href="blog-details.html">Possimus soluta ut id suscipit ea ut in quo quia et soluta</a>
+              </h2>
+
+              <div class="d-flex align-items-center">
+                <img src="assets/img/blog/blog-author-3.jpg" alt="" class="img-fluid post-author-img flex-shrink-0">
+                <div class="post-meta">
+                  <p class="post-author">Mark Dower</p>
+                  <p class="post-date">
+                    <time datetime="2022-01-01">Jun 22, 2022</time>
+                  </p>
+                </div>
+              </div>
+
+            </article>
+          </div>
+
+        </div>
+        
+
+      </div>
+    </section> -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2></h2>
+          <p></p>
+        </div>
+
+        <div class="row gx-lg-0 gy-4">
+
+          <div class="col-lg-4">
+
+            <div class="info-container d-flex flex-column align-items-center justify-content-center">
+              <div class="info-item d-flex">
+                <i class="bi bi-geo-alt flex-shrink-0"></i>
+                <div>
+                  <h4>Location:</h4>
+                  <p>Negara Indonesia</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <div class="info-item d-flex">
+                <i class="bi bi-envelope flex-shrink-0"></i>
+                <div>
+                  <h4>Email:</h4>
+                  <p>angela.cindy.larasati@mail.ugm.ac.id</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <div class="info-item d-flex">
+                <i class="bi bi-phone flex-shrink-0"></i>
+                <div>
+                  <h4>Call:</h4>
+                  <p>+1 5589 55488 55</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <div class="info-item d-flex">
+                <i class="bi bi-clock flex-shrink-0"></i>
+                <div>
+                  <h4>Open Hours:</h4>
+                  <p>Mon-Sat: 11AM - 23PM</p>
+                </div>
+              </div><!-- End Info Item -->
+            </div>
+
+          </div>
+
+          <div class="col-lg-8">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="col-md-6 form-group mt-3 mt-md-0">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                </div>
+              </div>
+              <div class="form-group mt-3">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+              </div>
+              <div class="form-group mt-3">
+                <textarea class="form-control" name="message" rows="7" placeholder="Message" required></textarea>
+              </div>
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-5 col-md-12 footer-info">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span>Impact</span>
+          </a>
+          <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta
+            donna mare fermentum iaculis eu non diam phasellus.</p>
+          <div class="social-links d-flex mt-4">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Terms of service</a></li>
+            <li><a href="#">Privacy policy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Web Development</a></li>
+            <li><a href="#">Product Management</a></li>
+            <li><a href="#">Marketing</a></li>
+            <li><a href="#">Graphic Design</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Contact Us</h4>
+          <p>
+            A108 Adam Street <br>
+            New York, NY 535022<br>
+            United States <br><br>
+            <strong>Phone:</strong> +1 5589 55488 55<br>
+            <strong>Email:</strong> info@example.com<br>
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Impact</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/impact-bootstrap-business-website-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+
+  </footer><!-- End Footer -->
+  <!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
